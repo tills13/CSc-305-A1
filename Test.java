@@ -22,28 +22,39 @@ public class Test {
 						b = buildMatrix();
 						break;
 					case 3:
+						System.out.println("a:\n" + a);
 						System.out.println(a.transpose());
 						break;
 					case 4:
+						System.out.println("a:\n" + a);
 						System.out.println(a.cofactor());
 						break;
 					case 5:
+						System.out.println("a:\n" + a);
 						System.out.println(a.determinant());
 						break;
 					case 6:
+						System.out.println("a:\n" + a);
+						System.out.println("b:\n" + b);
 						System.out.println(a.multiply(b));
 						break;
 					case 7:
+						System.out.println("a:\n" + a);
 						System.out.print("multiply by: ");
 						System.out.println(a.multiply(in.nextInt()));
 						break;
 					case 8:
+						System.out.println("a:\n" + a);
 						System.out.println(a.inverse());
 						break;
 					case 9: 
+						System.out.println("a:\n" + a);
+						System.out.println("b:\n" + b);
 						System.out.println(a.dot(b));
 						break;
 					case 10:
+						System.out.println("a:\n" + a);
+						System.out.println("b:\n" + b);
 						System.out.println(a.cross(b));
 						break;
 				}
@@ -51,6 +62,8 @@ public class Test {
 				System.out.println(e.getMessage()); 
 			} catch (InputMismatchException e) {
 				System.out.println("... numbers only");
+			} catch (ArrayIndexOutOfBoundsException e) {
+				System.out.println("array cannot be empty");
 			}
 
 		} while (choice != 11);

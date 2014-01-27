@@ -6,7 +6,7 @@ public class Matrix {
 	public int rows = 3;
 
 	public Matrix() {
-		
+
 	}
 
 	/* Matrix(Double[][])
@@ -77,7 +77,10 @@ public class Matrix {
 	 *
 	 * returns the cofactor matrix of the original matrix
 	 */
-	public Matrix cofactor() {
+	public Matrix cofactor() throws MatrixException {
+		if (this.rows != this.cols) throw new MatrixException("cannot cofactor with non-square matrix");
+		if (this.rows < 3) throw new MatrixException("cofactor matrix must be 3x3 or larger");
+
 		Matrix result = new Matrix(this.rows, this.cols);
 		for (int i = 0; i < result.rows; i++) {
 			for (int j = 0; j < result.cols; j++) {
@@ -119,7 +122,8 @@ public class Matrix {
 	 *
 	 * returns the determinant (double) of the original matrix
 	 */
-	public double determinant() {
+	public double determinant() throws MatrixException {
+		if (this.rows != this.cols) throw new MatrixException("cannot take determinant with non-square matrix");
 		if (this.rows == 2 && this.cols == 2) return this.matrix[0][0] * this.matrix[1][1] - this.matrix[0][1] * this.matrix[1][0];
 
 		int determinant = 0;
@@ -140,6 +144,7 @@ public class Matrix {
 	 * returns the result of the operation
 	 */
 	public Matrix multiply(Matrix b) throws MatrixException {
+		if (this.matrix == null || b.matrix == null) throw new MatrixException("matrix cannot be null");
 		if (this.cols == b.rows || this.rows == b.cols){
 			Matrix result = new Matrix(this.rows, b.cols);
 
@@ -153,7 +158,7 @@ public class Matrix {
 			}
 
 			return result;
-		} else throw new MatrixException("this.cols must match b.rows");
+		} else throw new MatrixException("a.cols must match b.rows");
 	}
 
 	/* multiply(Matrix)
@@ -182,7 +187,7 @@ public class Matrix {
 	 * 
 	 * returns the inverse of the original matrix
 	 */
-	public Matrix inverse() {
+	public Matrix inverse() throws MatrixException {
 		return this.cofactor().transpose().multiply(1 / this.determinant());
 	}
 
@@ -195,6 +200,7 @@ public class Matrix {
 	 * returns the result of the operation
 	 */
 	public Matrix dot(Matrix b) throws MatrixException {
+		if (this.matrix == null || b.matrix == null) throw new MatrixException("matrix cannot be null");
 		if (!this.isVector() || !b.isVector()) throw new MatrixException("cannot dot product non-vector matrices");
 		return this.transpose().multiply(b);
 	}
@@ -208,6 +214,7 @@ public class Matrix {
 	 * returns the result of the operation
 	 */
 	public Matrix cross(Matrix b) throws MatrixException {
+		if (this.matrix == null || b.matrix == null) throw new MatrixException("matrix cannot be null");
 		if (!this.isVector() || !b.isVector()) throw new MatrixException("cannot cross product non-vector matrices");
 		return Helper.generateDualVectorMatrix(this.rows, this).multiply(b);
 	}
@@ -219,7 +226,8 @@ public class Matrix {
 	 * 
 	 * returns whether or not the two matrices are equal
 	 */
-	public boolean equals(Matrix b) {
+	public boolean equals(Matrix b) throws MatrixException {
+		if (this.matrix == null || b.matrix == null) throw new MatrixException("matrix cannot be null");
 		if (this.cols != b.cols || this.rows != b.rows) return false;
 		for (int i = 0; i < this.rows; i++) {
 			for (int j = 0; j < this.cols; j++) {
@@ -256,6 +264,7 @@ public class Matrix {
 	 * returns the string representation of the matrix
 	 */
 	public String toString() {
+		if (this.matrix == null) return "matrix not initialized";
 		StringBuilder sb = new StringBuilder();
 
 		for (int i = 0; i < this.rows; i++) {
